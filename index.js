@@ -7,23 +7,43 @@ const daysOfWeek = [
   "Friday",
   "Saturday",
 ];
-const utcOffset = 1;
+// const utcOffset = 1;
 
 const dayOfWeekElement = document.getElementById("dayOfWeek");
-
 const utcTimeElement = document.getElementById("utcTime");
 
-function updateDateTime() {
+function updateDayOfWeek() {
   const today = new Date();
 
-  const utcPlusOneTime = new Date(today.getTime() + utcOffset * 60 * 60 * 1000);
+  const utcTime = new Date(today.getTime());
 
-  dayOfWeekElement.textContent = daysOfWeek[utcPlusOneTime.getUTCDay()];
-  utcTimeElement.textContent = utcPlusOneTime.toUTCString();
+  const dayOfWeek = daysOfWeek[utcTime.getUTCDay()];
+
+  dayOfWeekElement.textContent = dayOfWeek;
 }
 
-// Update the time every second
-setInterval(updateDateTime, 1000);
+function updateUTCDateTime() {
+  const today = new Date();
 
-// Initial update
-updateDateTime();
+  const utcTime = new Date(today.getTime());
+
+  const hours = utcTime.getUTCHours();
+  const minutes = utcTime.getUTCMinutes();
+  const seconds = utcTime.getUTCSeconds();
+  const milliseconds = utcTime.getUTCMilliseconds();
+
+  // Format the time with milliseconds
+  const formattedTime = `${hours}:${minutes}:${seconds}.${milliseconds}`;
+
+  utcTimeElement.textContent = formattedTime;
+}
+
+// Update the day of the week every second
+setInterval(updateDayOfWeek, 1000);
+
+// Update the UTC time every millisecond
+setInterval(updateUTCDateTime, 1);
+
+// Initial updates
+updateDayOfWeek();
+updateUTCDateTime();
